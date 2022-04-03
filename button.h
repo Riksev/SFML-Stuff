@@ -10,7 +10,6 @@ private:
 	sf::Sprite buttonSprite;
 	sf::Color textColor;
 	bool _hasSprite;
-	float goldProportion;
 
 public:
 	//Constructors
@@ -29,6 +28,7 @@ public:
 	void setBackColor(sf::Color color);
 	void setTextColor(sf::Color color);
 	void setPosition(sf::Vector2f position);
+	void update(sf::RenderWindow* window);
 	void render(sf::RenderWindow* window);
 };
 #endif
