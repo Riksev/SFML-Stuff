@@ -3,7 +3,6 @@
 Button::Button() {
 	this->defaultSize = sf::Vector2f(300.f, 150.f);
 	this->_hasSprite = false;
-	this->goldProportion = 1.618f;
 }
 
 void Button::create(std::string btnText, sf::Vector2f buttonSize, sf::Vector2f position, int charSize, sf::Color bgColor, sf::Color txtColor, sf::Font* font) {
@@ -17,7 +16,7 @@ void Button::create(std::string btnText, sf::Vector2f buttonSize, sf::Vector2f p
 	this->text.setFont(*font);
 	this->text.setCharacterSize(charSize);
 	this->text.setString(btnText);
-	this->text.setOrigin(btnText.length() / 2.f * charSize / this->goldProportion, charSize / 2.f);
+	this->text.setOrigin(this->text.getGlobalBounds().width / 2, this->text.getGlobalBounds().height / 1.25f);
 	this->text.setPosition(position);
 	this->text.setFillColor(textColor);
 }
@@ -32,7 +31,7 @@ void Button::setSprite(sf::Texture* texture) {
 
 void Button::setText(std::string info) {
 	this->text.setString(info);
-	this->text.setOrigin(info.length() / 2 * this->text.getCharacterSize() / this->goldProportion, this->text.getCharacterSize() / 2.f);
+	this->text.setOrigin(this->text.getGlobalBounds().width / 2, this->text.getGlobalBounds().height / 1.25f);
 }
 
 void Button::setSize(sf::Vector2f size) {
@@ -44,7 +43,7 @@ void Button::setSize(sf::Vector2f size) {
 
 void Button::setCharSize(unsigned int charSize) {
 	this->text.setCharacterSize(charSize);
-	this->text.setOrigin(this->text.getString().getSize() / 2.f * charSize / this->goldProportion, charSize / 2.f);
+	this->text.setOrigin(this->text.getGlobalBounds().width / 2, this->text.getGlobalBounds().height / 1.25f);
 }
 
 void Button::setFont(sf::Font* font) {
@@ -66,6 +65,19 @@ void Button::setPosition(sf::Vector2f position) {
 	this->text.setPosition(position);
 }
 
+void Button::update(sf::RenderWindow* window) {
+	if (this->isMouseIn(window)) {
+		if (!this->_hasSprite) this->button.setFillColor(sf::Color::Green);
+		else this->buttonSprite.setColor(sf::Color::Green);
+		this->text.setFillColor(sf::Color::Green);
+	}
+	else {
+		if (!this->_hasSprite) this->button.setFillColor(sf::Color::White);
+		else this->buttonSprite.setColor(sf::Color::White);
+		this->text.setFillColor(this->textColor);
+	}
+}
+
 void Button::render(sf::RenderWindow* window) {
 	if(!this->_hasSprite) window->draw(this->button);
 	else window->draw(this->buttonSprite);
@@ -73,16 +85,6 @@ void Button::render(sf::RenderWindow* window) {
 }
 
 bool Button::isMouseIn(sf::RenderWindow* window) {
-	if (this->button.getGlobalBounds().contains(static_cast<float>(sf::Mouse::getPosition(*window).x), static_cast<float>(sf::Mouse::getPosition(*window).y))) {
-		if (!this->_hasSprite) this->button.setFillColor(sf::Color::Green);
-		else this->buttonSprite.setColor(sf::Color::Green);
-		this->text.setFillColor(sf::Color::Green);
-		return true;
-	}
-	else {
-		if (!this->_hasSprite) this->button.setFillColor(sf::Color::White);
-		else this->buttonSprite.setColor(sf::Color::White);
-		this->text.setFillColor(this->textColor);
-		return false;
-	}
+	if (this->button.getGlobalBounds().contains(static_cast<float>(sf::Mouse::getPosition(*window).x), static_cast<float>(sf::Mouse::getPosition(*window).y))) return true;
+	return false;
 }
