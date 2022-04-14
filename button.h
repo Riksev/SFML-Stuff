@@ -14,6 +14,7 @@ private:
 public:
 	//Constructors
 	Button();
+	virtual ~Button();
 
 	//Status
 	bool isMouseIn(sf::RenderWindow* target);
