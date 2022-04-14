@@ -23,7 +23,7 @@ void Button::create(std::string btnText, sf::Vector2f buttonSize, sf::Vector2f p
 
 void Button::setSprite(sf::Texture* texture) {
 	this->buttonSprite.setTexture(*texture);
-	this->buttonSprite.setTextureRect(sf::IntRect(0, this->defaultSize.x, this->defaultSize.x, this->defaultSize.y));//Optional, I just use tile map
+	this->buttonSprite.setTextureRect(sf::IntRect(0, this->defaultSize.x, this->defaultSize.x, this->defaultSize.y));
 	this->buttonSprite.setOrigin(this->buttonSprite.getTextureRect().width / 2, this->buttonSprite.getTextureRect().height / 2);
 	this->buttonSprite.setPosition(this->button.getPosition());
 	this->_hasSprite = true;
@@ -35,10 +35,12 @@ void Button::setText(std::string info) {
 }
 
 void Button::setSize(sf::Vector2f size) {
-	if (!this->_hasSprite) {
-		this->button.setSize(size);
-		this->button.setOrigin(size.x / 2.f, size.y / 2.f);
-	} else this->buttonSprite.setScale(size.x / this->defaultSize.x, size.y / this->defaultSize.y);
+	this->button.setSize(size);
+	this->button.setOrigin(size.x / 2.f, size.y / 2.f);
+	if (this->_hasSprite) {
+		this->buttonSprite.setScale(size.x / this->defaultSize.x, size.y / this->defaultSize.y);
+		this->buttonSprite.setOrigin(this->buttonSprite.getTextureRect().width / 2, this->buttonSprite.getTextureRect().height / 2);
+	}
 }
 
 void Button::setCharSize(unsigned int charSize) {
@@ -60,8 +62,8 @@ void Button::setTextColor(sf::Color color) {
 }
 
 void Button::setPosition(sf::Vector2f position) {
-	if (!this->_hasSprite) this->button.setPosition(position);
-	else this->buttonSprite.setPosition(position);
+	this->button.setPosition(position);
+	if(this->_hasSprite) this->buttonSprite.setPosition(position);
 	this->text.setPosition(position);
 }
 
