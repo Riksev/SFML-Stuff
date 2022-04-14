@@ -5,6 +5,10 @@ Button::Button() {
 	this->_hasSprite = false;
 }
 
+Button::~Button() {
+
+}
+
 void Button::create(std::string btnText, sf::Vector2f buttonSize, sf::Vector2f position, int charSize, sf::Color bgColor, sf::Color txtColor, sf::Font* font) {
 	this->textColor = txtColor;
 
