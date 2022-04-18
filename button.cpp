@@ -3,13 +3,14 @@
 Button::Button() {
 	this->defaultSize = sf::Vector2f(300.f, 150.f);
 	this->_hasSprite = false;
+	this->_selected = false;
 }
 
 Button::~Button() {
 
 }
 
-void Button::create(std::string btnText, sf::Vector2f buttonSize, sf::Vector2f position, int charSize, sf::Color bgColor, sf::Color txtColor, sf::Font* font) {
+void Button::create(std::string btnText, sf::Vector2f buttonSize, sf::Vector2f position, int charSize, sf::Color bgColor, sf::Color txtColor, sf::Font* font, bool selectedStatus) {
 	this->textColor = txtColor;
 
 	this->button.setSize(buttonSize);
@@ -23,14 +24,29 @@ void Button::create(std::string btnText, sf::Vector2f buttonSize, sf::Vector2f p
 	this->text.setOrigin(this->text.getGlobalBounds().width / 2, this->text.getGlobalBounds().height / 1.25f);
 	this->text.setPosition(position);
 	this->text.setFillColor(textColor);
+
+	if (selectedStatus)
+	{
+		this->_selected = true;
+		if (!this->_hasSprite) this->button.setFillColor(sf::Color::Blue);
+		else this->buttonSprite.setColor(sf::Color::Blue);
+		this->text.setFillColor(sf::Color::Blue);
+	}
 }
 
-void Button::setSprite(sf::Texture* texture) {
+void Button::setSprite(sf::Texture* texture, bool selectedStatus) {
 	this->buttonSprite.setTexture(*texture);
 	this->buttonSprite.setTextureRect(sf::IntRect(0, this->defaultSize.x, this->defaultSize.x, this->defaultSize.y));
 	this->buttonSprite.setOrigin(this->buttonSprite.getTextureRect().width / 2, this->buttonSprite.getTextureRect().height / 2);
 	this->buttonSprite.setPosition(this->button.getPosition());
 	this->_hasSprite = true;
+	if (selectedStatus)
+	{
+		this->_selected = true;
+		if (!this->_hasSprite) this->button.setFillColor(sf::Color::Blue);
+		else this->buttonSprite.setColor(sf::Color::Blue);
+		this->text.setFillColor(sf::Color::Blue);
+	}
 }
 
 void Button::setText(std::string info) {
@@ -71,6 +87,32 @@ void Button::setPosition(sf::Vector2f position) {
 	this->text.setPosition(position);
 }
 
+
+void Button::setSelectedStatus(const bool status) {
+	this->_selected = status;
+	if (!this->_selected)
+	{
+		if (!this->_hasSprite) this->button.setFillColor(sf::Color::White);
+		else this->buttonSprite.setColor(sf::Color::White);
+		this->text.setFillColor(this->textColor);
+	}
+	else
+	{
+		if (!this->_hasSprite) this->button.setFillColor(sf::Color::Blue);
+		else this->buttonSprite.setColor(sf::Color::Blue);
+		this->text.setFillColor(sf::Color::Blue);
+	}
+}
+
+void Button::setSpriteScale(const float value) {
+	this->buttonSprite.setScale(this->buttonSprite.getScale() * value);
+}
+
+void Button::setScale(const float value) {
+	if (this->_hasSprite) this->buttonSprite.setScale(this->buttonSprite.getScale() * value);
+	this->button.setScale(this->button.getScale() * value);
+}
+
 void Button::update(sf::RenderWindow* window) {
 	if (this->isMouseIn(window)) {
 		if (!this->_hasSprite) this->button.setFillColor(sf::Color::Green);
@@ -78,9 +120,18 @@ void Button::update(sf::RenderWindow* window) {
 		this->text.setFillColor(sf::Color::Green);
 	}
 	else {
-		if (!this->_hasSprite) this->button.setFillColor(sf::Color::White);
-		else this->buttonSprite.setColor(sf::Color::White);
-		this->text.setFillColor(this->textColor);
+		if(!this->_selected)
+		{ 
+			if (!this->_hasSprite) this->button.setFillColor(sf::Color::White);
+			else this->buttonSprite.setColor(sf::Color::White);
+			this->text.setFillColor(this->textColor);
+		}
+		else
+		{
+			if (!this->_hasSprite) this->button.setFillColor(sf::Color::Blue);
+			else this->buttonSprite.setColor(sf::Color::Blue);
+			this->text.setFillColor(sf::Color::Blue);
+		}
 	}
 }
 
