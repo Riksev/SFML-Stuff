@@ -3,15 +3,6 @@
 #include <string>
 #include "SFML/Graphics.hpp"
 class Button {
-private:
-	sf::Vector2f defaultSize;
-	sf::RectangleShape button;
-	sf::Text text;
-	sf::Sprite buttonSprite;
-	sf::Color textColor;
-	bool _hasSprite;
-	bool _selected;
-
 public:
 	//Constructors
 	Button();
@@ -37,5 +28,17 @@ public:
 	void create(std::string btnText, sf::Vector2f btnSize, sf::Vector2f position, int charSize, sf::Color bgColor, sf::Color textColor, sf::Font* font, bool selectedStatus = false);
 	void update(sf::RenderWindow* window);
 	void render(sf::RenderWindow* window);
+
+private:
+	//Status
+	bool _hasSprite;
+	bool _selected;
+
+	//Variables
+	sf::Vector2f defaultSize;
+	sf::RectangleShape button;
+	sf::Text text;
+	sf::Sprite buttonSprite;
+	sf::Color textColor;
 };
 #endif
