@@ -8,7 +8,7 @@ public:
 	Button();
 	virtual ~Button();
 
-	//Status
+	//Getters
 	bool isMouseIn(sf::RenderWindow* target);
 
 	//Setters
@@ -30,7 +30,7 @@ public:
 	void render(sf::RenderWindow* window);
 
 private:
-	//Status
+	//Statuses
 	bool _hasSprite;
 	bool _selected;
 
