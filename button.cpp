@@ -141,7 +141,7 @@ void Button::render(sf::RenderWindow* window) {
 	window->draw(this->text);
 }
 
-bool Button::isMouseIn(sf::RenderWindow* window) {
-	if (this->button.getGlobalBounds().contains(static_cast<float>(sf::Mouse::getPosition(*window).x), static_cast<float>(sf::Mouse::getPosition(*window).y))) return true;
+bool sf::Button::isMouseIn(sf::RenderWindow* window) {
+	if (this->button.getGlobalBounds().contains(static_cast<float>(sf::Mouse::getPosition(*window).x * (window->getView().getSize().x / window->getSize().x)), static_cast<float>(sf::Mouse::getPosition(*window).y * (window->getView().getSize().y / window->getSize().y)))) return true;
 	return false;
 }
